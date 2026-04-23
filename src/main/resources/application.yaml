@@ -7,6 +7,8 @@ spring:
         git:
           uri: https://github.com/9oogle/project-configs
           default-label: dev
+          clone-on-start: true
+          timeout: 5
           search-paths:
           - configs/**
           - configs/{application}
