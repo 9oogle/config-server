@@ -1,3 +1,27 @@
 spring:
   application:
-    name: config_server
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/9oogle/project-configs
+          default-label: dev
+          clone-on-start: true
+          timeout: 5
+          search-paths:
+          - configs/**
+          - configs/{application}
+
+server:
+  port: 9011
+
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: ${HOSTNAME:localhost}
+  client:
+    register-with-eureka: true
+    fetch-registry: false        # config-server는 다른 서비스 목록 필요 없음
+    service-url:
+      defaultZone: http://${EUREKA_SERVER_URL1:localhost}:9001/eureka/,http://${EUREKA_SERVER_URL2:localhost}:9002/eureka/
