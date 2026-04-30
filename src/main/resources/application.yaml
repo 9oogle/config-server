@@ -10,7 +10,7 @@ spring:
           clone-on-start: true
           timeout: 5
           search-paths:
-          - configs/**
+          - configs/common
           - configs/{application}
 
 server:
