@@ -16,6 +16,11 @@ spring:
 server:
   port: 9011
 
+management:
+  endpoints:
+    web:
+      base-path: /management
+
 eureka:
   instance:
     prefer-ip-address: false

@@ -1,0 +1,22 @@
+# config-server 는 stateless 이므로 각 VM 에 이 파일을 동일하게 배포
+# VM1, VM2 각각에서 docker compose -f docker-compose.prod.yml up -d
+services:
+  config-server:
+    image: asia-northeast3-docker.pkg.dev/melodic-crane-494802-u3/goggles/config-server:${IMAGE_TAG:-latest}
+    container_name: goggles-config-server
+    restart: unless-stopped
+    ports:
+      - "9011:9011"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: "9011"
+      HOSTNAME: ${HOSTNAME}
+      EUREKA_SERVER_URL1: ${EUREKA_SERVER_URL1}
+      EUREKA_SERVER_URL2: ${EUREKA_SERVER_URL2}
+      SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL: ${GIT_BRANCH:-main}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9011/management/health 2>/dev/null | grep -q UP || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 90s
