@@ -2,7 +2,7 @@
 # VM1, VM2 각각에서 docker compose -f docker-compose.prod.yml up -d
 services:
   config-server:
-    image: asia-northeast3-docker.pkg.dev/melodic-crane-494802-u3/goggles/config-server:${IMAGE_TAG:-latest}
+    image: asia-northeast3-docker.pkg.dev/${GCP_PROJECT_ID}/goggles/config-server:${IMAGE_TAG:-latest}
     container_name: goggles-config-server
     restart: unless-stopped
     ports:

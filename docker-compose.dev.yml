@@ -1,6 +1,6 @@
 services:
   config-server:
-    image: asia-northeast3-docker.pkg.dev/melodic-crane-494802-u3/goggles/config-server:${IMAGE_TAG:-latest}
+    image: asia-northeast3-docker.pkg.dev/${GCP_PROJECT_ID}/goggles/config-server:${IMAGE_TAG:-latest}
     container_name: goggles-config-server
     restart: unless-stopped
     ports:
@@ -11,9 +11,15 @@ services:
       HOSTNAME: config-server
       EUREKA_SERVER_URL1: ${EUREKA_SERVER_URL1}
       EUREKA_SERVER_URL2: ${EUREKA_SERVER_URL1}   # dev 는 단일 유레카
+    networks:
+      - goggles-network
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:9011/management/health 2>/dev/null | grep -q UP || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 15
       start_period: 90s
+
+networks:
+  goggles-network:
+    external: true
